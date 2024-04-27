@@ -17,28 +17,34 @@ class BusinessDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // if (business.imageUrl != null)
-            //   Image.network(
-            //     business.imageUrl,
-            //     height: 200,
-            //     width: double.infinity,
-            //     fit: BoxFit.cover,
-            //   ),
+            if (business.imageUrl != null)
+              Image.network(
+                business.imageUrl,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             const SizedBox(height: 16),
             Text('Rating: ${business.rating}'),
             const SizedBox(height: 8),
-            Text('Categories: ${business.categories.join(', ')}'),
+            Text(
+                'Categories: ${business.categories.map((category) => category.title).join(', ')}'),
             const SizedBox(height: 8),
-            Text('Address: ${business.address}'),
+            Text('Address: ${business.location.displayAddress.join(', ')}'),
             const SizedBox(height: 8),
-            // if (business.phone != null) Text('Phone: ${business.phone}'),
+            if (business.phone != null) Text('Phone: ${business.phone}'),
             const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // Open the business URL in a web browser
-              },
-              child: const Text('Visit Yelp Page'),
-            ),
+            Text('Review Count: ${business.reviewCount}'),
+            const SizedBox(height: 8),
+            Text('Transactions: ${business.transactions.join(', ')}'),
+            const SizedBox(height: 8),
+            Text('Price: ${business.price}'),
+            const SizedBox(height: 8),
+            if (business.phone != null) Text('Phone: ${business.phone}'),
+            const SizedBox(height: 8),
+            Text('Display Phone: ${business.displayPhone}'),
+            const SizedBox(height: 8),
+            Text('Distance: ${business.distance.toStringAsFixed(2)} meters'),
           ],
         ),
       ),

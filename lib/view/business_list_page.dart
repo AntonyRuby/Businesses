@@ -10,12 +10,27 @@ class BusinessListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Business'),
+        title: const Text('Businesses'),
+        // Add additional app bar features like actions, icons, or search bar
       ),
       body: Consumer(
-        builder: (context, BusinessListViewModel viewModel, _) {
+        builder: (context, BusinessListViewModel viewModel, child) {
+          viewModel.fetchBusinesses();
           if (viewModel.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10),
+                  Text('Loading Businesses...'),
+                ],
+              ),
+            );
+          } else if (viewModel.businesses.isEmpty) {
+            return const Center(
+              child: Text('No businesses found'),
+            );
           } else {
             return ListView.builder(
               itemCount: viewModel.businesses.length,
@@ -23,6 +38,7 @@ class BusinessListPage extends StatelessWidget {
                 final business = viewModel.businesses[index];
                 return ListTile(
                   title: Text(business.name),
+                  // Customize list tile with additional information like icons or ratings
                   onTap: () {
                     Navigator.push(
                       context,
