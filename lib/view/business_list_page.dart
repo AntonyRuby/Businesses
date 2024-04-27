@@ -11,7 +11,6 @@ class BusinessListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Businesses'),
-        // Add additional app bar features like actions, icons, or search bar
       ),
       body: Consumer(
         builder: (context, BusinessListViewModel viewModel, child) {
@@ -27,6 +26,13 @@ class BusinessListPage extends StatelessWidget {
                 ],
               ),
             );
+          } else if (viewModel.error.isNotEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Error: ${viewModel.error}'),
+              ),
+            );
           } else if (viewModel.businesses.isEmpty) {
             return const Center(
               child: Text('No businesses found'),
@@ -38,7 +44,6 @@ class BusinessListPage extends StatelessWidget {
                 final business = viewModel.businesses[index];
                 return ListTile(
                   title: Text(business.name),
-                  // Customize list tile with additional information like icons or ratings
                   onTap: () {
                     Navigator.push(
                       context,
