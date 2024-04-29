@@ -3,8 +3,22 @@ import 'package:business/viewmodel.dart/business_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BusinessListPage extends StatelessWidget {
+class BusinessListPage extends StatefulWidget {
   const BusinessListPage({super.key});
+
+  @override
+  State<BusinessListPage> createState() => _BusinessListPageState();
+}
+
+class _BusinessListPageState extends State<BusinessListPage> {
+  late BusinessListViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = Provider.of<BusinessListViewModel>(context, listen: false);
+    viewModel.fetchBusinesses();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +28,7 @@ class BusinessListPage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, BusinessListViewModel viewModel, child) {
-          viewModel.fetchBusinesses();
+          // viewModel.fetchBusinesses();
           if (viewModel.isLoading) {
             return const Center(
               child: Column(
@@ -42,8 +56,7 @@ class BusinessListPage extends StatelessWidget {
               itemCount: viewModel.businesses.length,
               itemBuilder: (context, index) {
                 final business = viewModel.businesses[index];
-                return ListTile(
-                  title: Text(business.name),
+                return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -53,6 +66,14 @@ class BusinessListPage extends StatelessWidget {
                       ),
                     );
                   },
+                  child: Card(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: ListTile(
+                      title: Text(business.name),
+                      trailing: const Icon(Icons.arrow_forward),
+                    ),
+                  ),
                 );
               },
             );
